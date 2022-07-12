@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                   return ListTile(
                     title: Text(product.title!),
                     leading: Image.network(
-                      '[image]',
+                      product.image!,
                       height: 50,
                       width: 50,
                     ),
