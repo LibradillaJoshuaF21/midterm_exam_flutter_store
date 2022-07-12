@@ -13,15 +13,6 @@ class ProductDetailScreen extends StatelessWidget {
 
   ApiService get service => GetIt.I<ApiService>();
 
-  Future<Product> getProduct(int id) async {
-    final result = await service.getProduct(id.toString());
-    return result;
-  }
-
-  Future<void> updateCart(int cartID, int prodID) async {
-    await service.updateCart(cartID, prodID);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +22,7 @@ class ProductDetailScreen extends StatelessWidget {
       body: Container(
         margin: const EdgeInsets.all(20),
         child: FutureBuilder(
-          future: getProduct(id),
+          future: service.getProduct(id.toString()),
           builder: (BuildContext context, AsyncSnapshot<Product?> snapshot) {
             if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
@@ -96,7 +87,7 @@ class ProductDetailScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
         onPressed: () async {
-          await updateCart(1, id);
+          await service.updateCart(1, id);
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Product added to cart'),

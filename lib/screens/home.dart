@@ -12,11 +12,6 @@ class HomeScreen extends StatelessWidget {
 
   ApiService get service => GetIt.I<ApiService>();
 
-  Future<List<Product>> getAllProducts() async {
-    final result = await service.getAllProducts();
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +40,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: FutureBuilder(
-            future: getAllProducts(),
+            future: service.getAllProducts(),
             builder: (_, AsyncSnapshot<List<Product>> snapshot) {
               if (!snapshot.hasData) {
                 return const CircularProgressIndicator();
