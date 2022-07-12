@@ -9,11 +9,6 @@ class AllCategoryScreen extends StatelessWidget {
 
   ApiService get service => GetIt.I<ApiService>();
 
-  Future<dynamic> getAllCategories() async {
-    final result = await service.getAllCategories();
-    return result;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +18,7 @@ class AllCategoryScreen extends StatelessWidget {
         backgroundColor: Colors.red,
       ),
       body: FutureBuilder(
-        future: getAllCategories(),
+        future: service.getAllCategories(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());

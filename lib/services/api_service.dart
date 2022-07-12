@@ -7,13 +7,15 @@ import 'dart:convert';
 
 class ApiService {
   static const String baseUrl = 'https://fakestoreapi.com';
+  static const headers = {'Content-type': 'application/json'};
 
-  Future<dynamic> login(String userName, String password) {
+  Future<dynamic> login(String userName, String password) async {
     return http.post(Uri.parse("$baseUrl/auth/login"),
         body: {'username': userName, 'password': password}).then((data) {
-      if (data.statusCode == 201) {
+      print(data.statusCode);
+      if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
-        return Future<dynamic>(jsonData);
+        return jsonData;
       }
     }).catchError((err) => print(err));
   }
@@ -48,7 +50,7 @@ class ApiService {
     ]);
     return http
         .put(Uri.parse('$baseUrl/carts/$cartID'),
-            body: json.encode(tempCart.toJson()))
+            headers: headers, body: json.encode(tempCart.toJson()))
         .then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
@@ -58,7 +60,7 @@ class ApiService {
   }
 
   Future<dynamic> getAllCategories() {
-    return http.get(Uri.parse("$baseUrl/products/category")).then((data) {
+    return http.get(Uri.parse("$baseUrl/products/categories")).then((data) {
       if (data.statusCode == 200) {
         final jsonData = json.decode(data.body);
         return jsonData;
@@ -78,6 +80,26 @@ class ApiService {
         }
       }
       return categoryProducts;
+    }).catchError((err) => print(err));
+  }
+
+  Future<Cart> getCart(String id) async {
+    return http.get(Uri.parse('$baseUrl/carts/$id')).then((data) {
+      var cart = Cart(date: DateTime.now(), products: [], userId: 1);
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        cart = Cart.fromJson(jsonData);
+      }
+      return cart;
+    }).catchError((err) => print(err));
+  }
+
+  Future<void> deleteCart(String id) async {
+    return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        print(jsonData);
+      }
     }).catchError((err) => print(err));
   }
 }
