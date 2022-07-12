@@ -80,4 +80,24 @@ class ApiService {
       return categoryProducts;
     }).catchError((err) => print(err));
   }
+
+  Future<Cart> getCart(String id) async {
+    return http.get(Uri.parse('$baseUrl/carts/$id')).then((data) {
+      var cart = Cart(date: DateTime.now(), products: [], userId: 1);
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        cart = Cart.fromJson(jsonData);
+      }
+      return cart;
+    }).catchError((err) => print(err));
+  }
+
+  Future<void> deleteCart(String id) async {
+    return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        print(jsonData);
+      }
+    }).catchError((err) => print(err));
+  }
 }

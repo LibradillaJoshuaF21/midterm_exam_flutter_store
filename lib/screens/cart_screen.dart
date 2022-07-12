@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 
 import '../models/cart.dart';
@@ -54,7 +56,7 @@ class CartScreen extends StatelessWidget {
                       height: 40,
                     ),
                     subtitle: Text(
-                      'Quantity: '[$quantity]',
+                      'Quantity: [$quantity]',
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
