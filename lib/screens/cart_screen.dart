@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../models/cart.dart';
 import '../models/product.dart';
@@ -8,6 +9,22 @@ import '../services/api_service.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
+
+  ApiService get service => GetIt.I<ApiService>();
+
+  Future<Cart> getCart(String id) async {
+    final result = await service.getCart(id);
+    return result;
+  }
+
+  Future<void> deleteCart(String id) async {
+    await service.deleteCart(id);
+  }
+
+  Future<Product> getProduct(int id) async {
+    final result = await service.getProduct(id.toString());
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +67,13 @@ class CartScreen extends StatelessWidget {
                   }
 
                   return ListTile(
-                    title: Text(p.title),
+                    title: Text(p.title!),
                     leading: Image.network(
-                      '[image]',
+                      p.image!,
                       height: 40,
                     ),
                     subtitle: Text(
-                      'Quantity: [$quantity]',
+                      'Quantity: ${product.quantity}',
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),

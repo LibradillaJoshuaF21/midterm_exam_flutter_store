@@ -50,7 +50,7 @@ class ApiService {
         .put(Uri.parse('$baseUrl/carts/$cartID'),
             body: json.encode(tempCart.toJson()))
         .then((data) {
-      if (data.statusCode == 200) {
+      if (data.statusCode == 204) {
         final jsonData = json.decode(data.body);
         print(jsonData);
       }
@@ -94,7 +94,7 @@ class ApiService {
 
   Future<void> deleteCart(String id) async {
     return http.delete(Uri.parse('$baseUrl/carts/$id')).then((data) {
-      if (data.statusCode == 200) {
+      if (data.statusCode == 204) {
         final jsonData = json.decode(data.body);
         print(jsonData);
       }
