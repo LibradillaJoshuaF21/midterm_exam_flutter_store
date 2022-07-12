@@ -29,4 +29,15 @@ class ApiService {
       return productList;
     }).catchError((err) => print(err));
   }
+
+  Future<Product> getProduct(String id) async {
+    return http.get(Uri.parse('$baseUrl/products/$id')).then((data) {
+      var product = Product();
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        product = Product.fromJson(jsonData);
+      }
+      return product;
+    }).catchError((err) => print(err));
+  }
 }
