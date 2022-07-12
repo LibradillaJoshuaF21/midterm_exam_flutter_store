@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 import '../models/product.dart';
 import '../services/api_service.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   const ProductDetailScreen({Key? key, required this.id}) : super(key: key);
+
+  final int id;
+
+  ApiService get service => GetIt.I<ApiService>();
+
+  Future<Product> getProduct(int id) async {
+    final result = await service.getProduct(id.toString());
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +56,7 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    '\$$price',
+                    '\$${product.price}',
                     style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
@@ -61,7 +71,7 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   Chip(
                     label: Text(
-                      '[category]',
+                      product.category,
                       style: const TextStyle(
                         fontSize: 15,
                         color: Colors.white,

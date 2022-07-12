@@ -57,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                 itemBuilder: ((context, index) {
                   final product = snapshot.data![index];
                   return ListTile(
-                    title: Text(product.title!),
+                    title: Text(product.title),
                     leading: Image.network(
                       '[image]',
                       height: 50,
