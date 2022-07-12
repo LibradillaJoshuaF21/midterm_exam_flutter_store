@@ -56,4 +56,28 @@ class ApiService {
       }
     }).catchError((err) => print(err));
   }
+
+  Future<dynamic> getAllCategories() {
+    return http.get(Uri.parse("$baseUrl/products/category")).then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        return jsonData;
+      }
+    }).catchError((err) => print(err));
+  }
+
+  Future<dynamic> getCategory(String category) {
+    return http
+        .get(Uri.parse("$baseUrl/products/category/$category"))
+        .then((data) {
+      var categoryProducts = <Product>[];
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        for (var item in jsonData) {
+          categoryProducts.add(Product.fromJson(item));
+        }
+      }
+      return categoryProducts;
+    }).catchError((err) => print(err));
+  }
 }
