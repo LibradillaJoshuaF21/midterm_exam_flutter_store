@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print, invalid_return_type_for_catch_error
 
+import 'package:fake_store/models/cart.dart';
 import 'package:fake_store/models/product.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -38,6 +39,21 @@ class ApiService {
         product = Product.fromJson(jsonData);
       }
       return product;
+    }).catchError((err) => print(err));
+  }
+
+  Future<void> updateCart(int cartID, int prodID) {
+    final tempCart = Cart(userId: cartID, date: DateTime.now(), products: [
+      {'productId': prodID, 'quantity': 1}
+    ]);
+    return http
+        .put(Uri.parse('$baseUrl/carts/$cartID'),
+            body: json.encode(tempCart.toJson()))
+        .then((data) {
+      if (data.statusCode == 200) {
+        final jsonData = json.decode(data.body);
+        print(jsonData);
+      }
     }).catchError((err) => print(err));
   }
 }

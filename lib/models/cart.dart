@@ -1,11 +1,11 @@
 class Cart {
-  int id;
+  int? id;
   int userId;
   DateTime date;
   List<dynamic> products;
 
   Cart({
-    required this.id,
+    this.id,
     required this.userId,
     required this.date,
     required this.products,
@@ -18,5 +18,13 @@ class Cart {
       date: DateTime.parse(data['date']),
       products: data['products'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'userId': userId,
+      'date': date.toIso8601String(),
+      'products': products
+    };
   }
 }

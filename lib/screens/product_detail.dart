@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
@@ -14,6 +16,10 @@ class ProductDetailScreen extends StatelessWidget {
   Future<Product> getProduct(int id) async {
     final result = await service.getProduct(id.toString());
     return result;
+  }
+
+  Future<void> updateCart(int cartID, int prodID) async {
+    await service.updateCart(cartID, prodID);
   }
 
   @override
@@ -64,14 +70,14 @@ class ProductDetailScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    product.title,
+                    product.title!,
                     style: const TextStyle(
                       fontSize: 25,
                     ),
                   ),
                   Chip(
                     label: Text(
-                      product.category,
+                      product.category!,
                       style: const TextStyle(
                         fontSize: 15,
                         color: Colors.white,
@@ -80,7 +86,7 @@ class ProductDetailScreen extends StatelessWidget {
                     backgroundColor: Colors.blueGrey,
                   ),
                   const SizedBox(height: 30),
-                  Text(product.description),
+                  Text(product.description!),
                 ],
               ),
             );
